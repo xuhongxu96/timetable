@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>课表导入系统 - 结果</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        html {
+            overflow-x: hidden;
+        }
+        
+        .table label:before {
+            display: inline;
+            content: "没";
+        }
+        
+        .table label.active:before {
+            display: none;
+            content: "";
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">课表导入系统</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left" id="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="event" placeholder="事件" value="白鸽校服">
+                    </div>
+					<button type="submit" class="btn btn-primary">计算</button>
+                </form>
+                <p class="navbar-text navbar-right">By: <a class="navbar-link" href="http://xuhongxu.cn">xuhongxu.cn</a></p>
+            </div>
+
+
+        </div>
+        <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+        <form id="tableForm">
+            <div class="table-responsive">
+                <table class="text-center table table-bordered table-hover" id="table">
+                    <tr>
+                        <th>#</th>
+                        <th>周一</th>
+                        <th>周二</th>
+                        <th>周三</th>
+                        <th>周四</th>
+                        <th>周五</th>
+                        <th>周六</th>
+                        <th>周日</th>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function() {
+            var table = $("#table");
+            for (var i = 1; i <= 12; ++i) {
+                var e = $("<tr><td>" + i + "</td></tr>");
+                for (var j = 1; j <= 7; ++j) {
+                    e.append($("<td id='t" + i + "_" + j + "'></td>"));
+                }
+                e.appendTo(table);
+            }
+            $("#form").submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                        method: "POST",
+                        url: "view.php",
+						dataType: "json",
+                        data: $(this).serialize()
+                    })
+                    .done(function(data) {
+						for (var i = 1; i <= 7; ++i) {
+							for (var j = 1; j <= 12; ++j) {
+								var list = "";
+								for(var e in data[i][j]) {
+									if (data[i][j][e]) {
+										list += e + "<br>";
+									}
+								}
+								$("#t" + j + "_" + i).html(list);
+							}
+						}
+
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
