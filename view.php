@@ -1,8 +1,7 @@
 <?php 
+require_once 'db.php';
 $event = $_POST['event'];
 
-//$mysqli = new mysqli("localhost", "root", "", "timetable");
-$mysqli = new mysqli("qdm121543438.my3w.com", "qdm121543438", "Xuhongxu96", "qdm121543438_db");
 $mysqli->set_charset("utf8");
 $mysqli->query("SET NAMES 'utf8'");
 $mysqli->query("SET CHARACTER SET UTF8");

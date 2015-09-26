@@ -1,11 +1,10 @@
 <?php 
+require_once 'db.php';
 $id = $_POST['id'];
 $name = $_POST['name'];
 $event = $_POST['event'];
 $time = isset($_POST['time']) ? $_POST['time'] : [];
 
-//$mysqli = new mysqli("localhost", "root", "", "timetable");
-$mysqli = new mysqli("qdm121543438.my3w.com", "qdm121543438", "Xuhongxu96", "qdm121543438_db");
 $mysqli->set_charset("utf8");
 $mysqli->query("SET NAMES 'utf8'");
 $mysqli->query("SET CHARACTER SET UTF8");
